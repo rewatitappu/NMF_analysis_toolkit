@@ -1,0 +1,65 @@
+"""
+A simple workflow to analyse RNA-seq paired end data
+Author: Rewati Tappu
+Required variables:
+
+1. Input_fastq_files (in directories named by sample IDs (SIDs))
+2. output_folder
+3. Genome index
+4. Genome GTF
+
+Output: Produces a BAM file with alignments and a BAM index file for each sample.
+
+BAM files can then be used as input to featureCounts for generating read count data.
+"""
+
+from snakemake.io import glob_wildcards, expand
+import sys
+import os
+
+directories, files, pair = glob_wildcards("/home/SID{dir}/{file}_{P}_001_trim.fastq.paired.fq")
+print(directories, files, pair)
+
+rule all:
+    input:
+        expand("/home/bams/SID{dir}/{file}_sorted.bam", zip, dir=directories, file=files),
+        expand("/home/bams/SID{dir}/{file}_sorted.bam.bai", zip, dir=directories, file=files)
+        
+rule hisat_map:
+    input:
+        r1 = "/home/SID{dir}/{file}_R1_001_trim.fastq.paired.fq",
+        r2 = "/home/SID{dir}/{file}_R2_001_trim.fastq.paired.fq"
+    output:
+        sam = temp("/home/bams/SID{dir}/{file}.sam")
+    params:
+        idx = "/home/data/human/grch38.p12"
+    threads: 8
+    shell:
+        "./hisat2 -p {threads} --dta -x {params.idx} -1 {input.r1} -2 {input.r2} > {output.sam}"
+        
+rule sam_to_bam:
+	input:
+		sam = "/home/bams/SID{dir}/{file}.sam"
+	output:
+		bam = temp("/home/bams/SID{dir}/{file}.bam")
+	shell:
+		"./samtools view -Sb -o {output.bam} {input.sam}"      
+
+rule samtools_sort:
+    input:
+        ubf = "/home/bams/SID{dir}/{file}.bam"
+    output:
+        sbf = "/home/bams/SID{dir}/{file}_sorted.bam"
+    params:
+        mem = "4G",
+        t = "/tmp"
+    shell:
+        "samtools sort -m {params.mem} -T {params.t} {input.ubf} -o {output.sbf}"
+        
+rule samtools_index:
+	input:
+		bamf = "/home/bams/SID{dir}/{file}_sorted.bam"
+	output:
+		bamo = "/home/bams/SID{dir}/{file}_sorted.bam.bai"
+	shell:
+		"samtools index {input.bamf} {output.bamo}"
