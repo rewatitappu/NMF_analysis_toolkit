@@ -31,7 +31,7 @@ def run_KMeans(df_feature):
         plt.xlabel('k')
         plt.ylabel('Sum_of_squared_distances')
         plt.title('Elbow Method For Optimal k')
-        plt.savefig("/Users/ngsmac7/Documents/lhp_backup/NMF_rank5_old_kim_2/optimalK_elbow_lf.pdf")
+        plt.savefig("/Users/Documents/optimalK_elbow_lf.pdf")
 
 
 kmeans = KMeans(n_clusters=7, random_state=0).fit(feature)
