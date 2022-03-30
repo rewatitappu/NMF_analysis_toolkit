@@ -27,11 +27,11 @@ def run_KMeans(df_feature):
 
         print(Sum_of_squared_distances)
 
-        plt.plot(K, Sum_of_squared_distances, 'bx-')
-        plt.xlabel('k')
-        plt.ylabel('Sum_of_squared_distances')
-        plt.title('Elbow Method For Optimal k')
-        plt.savefig("/Users/Documents/optimalK_elbow_lf.pdf")
+    plt.plot(K, Sum_of_squared_distances, 'bx-')
+    plt.xlabel('k')
+    plt.ylabel('Sum_of_squared_distances')
+    plt.title('Elbow Method For Optimal k')
+    plt.savefig("/Users/Documents/optimalK_elbow_lf.pdf")
 
 
 kmeans = KMeans(n_clusters=7, random_state=0).fit(feature)
