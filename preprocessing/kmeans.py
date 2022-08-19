@@ -1,5 +1,6 @@
 """
 Author - Rewati Tappu
+This script takes as an input, a matrix with normalised count data pertaining to an OMICS study.
 """
 
 import pandas as pd
