@@ -1,6 +1,6 @@
 """
 Author - Rewati Tappu
-This script takes in the mRNA and methylation data matrices and concatenates and normalises them
+This script takes in the concatenated mRNA and methylation data matrices and normalises them
 """
 
 import os, sys, re, pandas as pd, scipy.stats as stats, pylab as pl, matplotlib.pyplot as plt
