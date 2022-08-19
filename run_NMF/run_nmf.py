@@ -12,7 +12,7 @@ from sklearn.metrics import explained_variance_score
 df = pd.read_csv("/home/nmf_results/concat_mat_norm_counts_varfil_pynorm.txt", sep="\t")
 
 #For the optimization of the factorization rank:
-outfile = open("/nmf_rank_optim/home/nmf_resultsization.txt", "w")
+outfile = open("/home/nmf_results/nmf_rank_optim/nmf_optimization.txt", "w")
 for x in np.arange(2, 100, 1):
     for y in np.arange(0, 29, 1):
         df_N = np.matrix(df)
