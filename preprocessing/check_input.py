@@ -37,12 +37,12 @@ def plot_stats(df_stat, variable):
 	plt.savefig("home/variance_distplot.pdf")
 
 #filter based on mean and variance
-#df_stats_fil = df_stats[(df_stats['mean'] > 0.40) & (df_stats['variance'] > 0.005)]
+#For example - df_stats_fil = df_stats[(df_stats['mean'] > 0.40) & (df_stats['variance'] > 0.005)]
 def filter(df_stat, df_dataset, threshold, var):
 	df_stats_fil = df_stat[df_stat[var] > threshold]
 	print(df_stats_fil.describe())
 	df_dataset_fil = df_dataset[df_dataset[df_dataset.index.isin(df_stats_fil.index)]
 	return df_dataset_fil
 
-df_meth = import_dataset()
+df_meth = import_dataset("/home/nmf_input/meth_beta_mat.txt", ['sam1', 'sam2', 'sam3', 'sam4'], ['sam1', 'sam2', 'sam3', 'sam4'], 'features')
 
